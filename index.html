@@ -557,7 +557,57 @@
     0%   { opacity:1; transform:translate(0,0) scale(1.2); }
     100% { opacity:0; transform:translate(var(--sx),var(--sy)) scale(0); }
   }
+/* ✨ ENHANCED SCRATCH REVEAL */
 
+.date-box {
+  position: relative;
+  overflow: hidden;
+}
+
+.date-box.revealed-text {
+  animation: dateRevealFade 1.2s ease forwards;
+}
+
+@keyframes dateRevealFade {
+  0% { opacity: 0; transform: scale(0.9); letter-spacing: .4em; }
+  60% { opacity: 1; transform: scale(1.05); }
+  100% { opacity: 1; transform: scale(1); letter-spacing: .18em; }
+}
+
+.date-box::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -120%;
+  width: 120%; height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255,255,255,0.25),
+    transparent
+  );
+  opacity: 0;
+}
+
+.date-box.shine::after {
+  animation: shineSweep 1.5s ease forwards;
+}
+
+@keyframes shineSweep {
+  0% { left: -120%; opacity: 0; }
+  30% { opacity: 1; }
+  100% { left: 120%; opacity: 0; }
+}
+
+.ctdn {
+  opacity: 0;
+  transform: translateY(30px);
+  pointer-events: none;
+}
+
+.ctdn.show {
+  animation: fadeUp 1.2s ease forwards;
+  pointer-events: auto;
+}
   </style>
 </head>
 <body>
@@ -649,8 +699,8 @@
     <p style="font-family:'Cinzel',serif;font-size:.55rem;letter-spacing:5px;color:var(--gold);text-transform:uppercase;text-align:center;margin-bottom:2rem;">
       Counting Down The Moments
     </p>
-    <div class="ctdn">
-      <div class="ctdn-unit">
+<div class="ctdn" id="countdownBox">
+  <div class="ctdn-unit">
         <span class="ctdn-num" id="cd-d">000</span>
         <span class="ctdn-lbl">Days</span>
       </div>
@@ -857,10 +907,24 @@ function checkDone(){
 function revealDate(){
   scratchDone = true;
   sctx.clearRect(0,0,sc.width,sc.height);
-  document.getElementById('shint').textContent = '✦  Save The Date  ✦';
-  document.getElementById('dateBox').classList.add('glow');
+
+  const dateBox = document.getElementById('dateBox');
+  const hint = document.getElementById('shint');
+  const countdown = document.getElementById('countdownBox');
+
+  hint.textContent = '✦  The Date is Revealed  ✦';
+
+  dateBox.classList.add('revealed-text');
+  dateBox.classList.add('shine');
+  dateBox.classList.add('glow');
+
   burstSparkles();
-  toast('✦  The date is revealed — 11 · 06 · 2026  ✦');
+
+  setTimeout(()=>{
+    countdown.classList.add('show');
+  }, 1200);
+
+  toast('✦  Save the Date — 11 · 06 · 2026  ✦');
 }
 
 function burstSparkles(){
