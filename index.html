@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kranthi ♥ Vishal — Engagement 2026</title>
+  <title>Kranthi ♥  Vishal  Engagement 2026</title>
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,12 +11,11 @@
   <!--
     FIX: Was only loading Pinyon Script and applying it to entire body.
          Now loading 3 fonts for proper hierarchy:
-         - Cinzel          → section headings, labels, buttons
-         - Cormorant Garamond → couple names, date, poem (elegant serif)
-         - Lato            → body text, paragraphs, inputs (readable)
+         - Cinzel          →  section headings, labels, buttons
+         - Cormorant Garamond →  couple names, date, poem (elegant serif)
+         - Lato            →  body text, paragraphs, inputs (readable)
   -->
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Lato:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&display=swap" rel="stylesheet">
   <style>
 
   /* ================= ROOT VARIABLES ================= */
@@ -37,7 +36,7 @@
   html { scroll-behavior: smooth; }
 
   /*
-    FIX: Was font-family:'Pinyon Script' on body — made ALL text (inputs,
+    FIX: Was font-family:'Pinyon Script' on body  made ALL text (inputs,
          labels, paragraphs) look broken. Now using Lato for body text.
          Pinyon Script / Cormorant used only where appropriate.
   */
@@ -53,7 +52,7 @@
   #curtain {
     position: fixed; inset: 0;
     display: flex; z-index: 1000;
-    /* FIX: Was missing pointer-events control — after open it blocked all clicks */
+    /* FIX: Was missing pointer-events control  after open it blocked all clicks */
   }
 
   .c-panel {
@@ -77,7 +76,7 @@
   .c-panel.left  { transform-origin: left center; }
   .c-panel.right { transform-origin: right center; }
 
-  /* FIX: Was .left.open — now properly scoped */
+  /* FIX: Was .left.open  now properly scoped */
   .c-panel.left.open  { transform: translateX(-100%); }
   .c-panel.right.open { transform: translateX(100%); }
 
@@ -140,7 +139,7 @@
     position: relative; overflow: hidden;
 
     /*
-      FIX: Was missing gradient overlay — names were unreadable over image.
+      FIX: Was missing gradient overlay  names were unreadable over image.
            Now has a proper dark gradient layered on top of the photo.
       ADDED: The requested ring+flowers background image.
     */
@@ -165,8 +164,8 @@
   }
 
   /*
-    FIX & CHANGE: Was a plain h1 with no font specified — inherited broken Pinyon Script.
-                  Now uses Cormorant Garamond — classic, elegant, perfect for names.
+    FIX & CHANGE: Was a plain h1 with no font specified  inherited broken Pinyon Script.
+                  Now uses Cormorant Garamond  classic, elegant, perfect for names.
   */
   .hero-names {
     font-family: 'Cormorant Garamond', serif;
@@ -244,8 +243,8 @@
   }
 
   /*
-    FIX & CHANGE: Was a plain h2 inheriting Pinyon Script — illegible for headings.
-                  Now uses Cinzel — formal, engraved, authoritative.
+    FIX & CHANGE: Was a plain h2 inheriting Pinyon Script  illegible for headings.
+                  Now uses Cinzel  formal, engraved, authoritative.
   */
   h2, .sec-title {
     font-family: 'Cinzel', serif;
@@ -334,10 +333,11 @@
   }
 
   /*
-    CHANGE: Date now uses Cormorant Garamond italic — refined, timeless,
+    CHANGE: Date now uses Cormorant Garamond italic  refined, timeless,
             far more visually elegant than the original plain h2.
   */
   .date-box {
+    position: relative; z-index: 1;
     padding: 2.5rem clamp(2rem,8vw,5rem);
     font-family: 'Cormorant Garamond', serif;
     font-size: clamp(2.2rem, 7vw, 4.5rem);
@@ -356,7 +356,7 @@
     50%      { box-shadow:0 0 65px rgba(201,169,110,.5), 0 0 110px rgba(201,169,110,.15); }
   }
 
-  #sc { position:absolute; inset:0; cursor:crosshair; touch-action:none; }
+  #sc { position:absolute; inset:0; cursor:crosshair; touch-action:none; z-index:2; }
 
   .scratch-hint {
     font-family:'Cinzel',serif;
@@ -438,7 +438,7 @@
   }
   .map-wrap iframe {
     width:100%; height:100%; border:none;
-    /* FIX: Was missing — raw iframe looked jarring on dark theme */
+    /* FIX: Was missing  raw iframe looked jarring on dark theme */
     filter:sepia(25%) saturate(.7) brightness(.75);
   }
 
@@ -461,7 +461,7 @@
   }
 
   /*
-    FIX: Was white browser-default background + black text — looked broken
+    FIX: Was white browser-default background + black text  looked broken
          on dark theme. Now styled to match the dark palette.
   */
   .f-input, .f-area, .f-select {
@@ -487,7 +487,7 @@
     margin-top:1.8rem;
   }
 
-  /* FIX: Was a single unstyled global button — now two distinct action buttons */
+  /* FIX: Was a single unstyled global button  now two distinct action buttons */
   .btn-wa, .btn-mail {
     flex:1; min-width:145px;
     padding:13px 18px;
@@ -557,7 +557,7 @@
     0%   { opacity:1; transform:translate(0,0) scale(1.2); }
     100% { opacity:0; transform:translate(var(--sx),var(--sy)) scale(0); }
   }
-/* ✨ ENHANCED SCRATCH REVEAL */
+/* ✨  ENHANCED SCRATCH REVEAL */
 
 .date-box {
   position: relative;
@@ -612,24 +612,24 @@
 </head>
 <body>
 
-<!-- ── TOAST ── -->
+<!-- ─ ─  TOAST ─ ─  -->
 <div id="toast"></div>
 
-<!-- ── CURTAIN ── -->
+<!-- ─ ─  CURTAIN ─ ─  -->
 <div id="curtain">
   <div class="c-panel left"></div>
   <div class="c-panel right"></div>
 </div>
 <div id="curtain-center">
   <div class="kv-ring"><span class="kv-text">KV</span></div>
-  <p class="kv-tagline">A love story begins…</p>
-  <!-- FIX: Was a plain unstyled <button> — now has id for proper scoping -->
+  <p class="kv-tagline">A love story begins</p>
+  <!-- FIX: Was a plain unstyled <button>  now has id for proper scoping -->
   <button id="open-btn" onclick="openCurtain()">Open Invitation</button>
 </div>
 
-<!-- ── HERO ── -->
+<!-- ─ ─  HERO ─ ─  -->
 <section id="hero">
-  <p class="hero-eyebrow">✦ &nbsp; We joyfully invite you &nbsp; ✦</p>
+  <p class="hero-eyebrow">✦  &nbsp; We joyfully invite you &nbsp; ✦ </p>
   <h1 class="hero-names">
     <span class="hero-bride">Kranthi Marvel &ensp;<span class="role">(Bride)</span></span>
     <span class="hero-amp">&amp;</span>
@@ -637,7 +637,7 @@
   </h1>
   <div class="hero-line"></div>
   <p class="hero-poem">
-    "Two souls, one destiny —<br>
+    "Two souls, one destiny <br>
     bound by love, blessed by stars,<br>
     ready to write their forever."
   </p>
@@ -647,16 +647,16 @@
   </div>
 </section>
 
-<!-- ── PARENTS ── -->
+<!-- ─ ─  PARENTS ─ ─  -->
 <section id="parents" class="section">
   <div class="sec-head reveal">
-    <span class="sec-label">✦ &nbsp; With Blessings Of &nbsp; ✦</span>
+    <span class="sec-label">✦  &nbsp; With Blessings Of &nbsp; ✦ </span>
     <h2 class="sec-title">Our Beloved Families</h2>
     <div class="gold-bar"></div>
   </div>
   <div class="p-grid">
     <div class="p-card reveal d1">
-      <span class="p-icon">🌸</span>
+      <span class="p-icon">? ? </span>
       <p class="p-role">Bride's Parents</p>
       <div class="p-names">
         <span>Madda Kumar</span>
@@ -664,7 +664,7 @@
       </div>
     </div>
     <div class="p-card reveal d2">
-      <span class="p-icon">🌿</span>
+      <span class="p-icon">? ? </span>
       <p class="p-role">Groom's Parents</p>
       <div class="p-names">
         <span>Ram Sajiwan Gautam</span>
@@ -674,10 +674,10 @@
   </div>
 </section>
 
-<!-- ── DATE + COUNTDOWN ── -->
+<!-- ─ ─  DATE + COUNTDOWN ─ ─  -->
 <section id="date-section" class="section">
   <div class="sec-head reveal">
-    <span class="sec-label">✦ &nbsp; Mark Your Calendar &nbsp; ✦</span>
+    <span class="sec-label">✦  &nbsp; Mark Your Calendar &nbsp; ✦ </span>
     <h2 class="sec-title">The Sacred Date</h2>
     <div class="gold-bar"></div>
     <p style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.1rem;color:rgba(251,245,232,.6);margin-top:1rem;">
@@ -687,15 +687,10 @@
 
   <div class="reveal d1">
     <div class="scratch-wrap" id="scratchWrap">
-      <div class="date-box" id="dateBox">11 &nbsp;—&nbsp; 06 &nbsp;—&nbsp; 2026</div>
+      <div class="date-box" id="dateBox">11 &nbsp;&nbsp; 06 &nbsp;&nbsp; 2026</div>
       <canvas id="sc"></canvas>
-      <div class="date-box" id="dateBox">
-  11 · 06 · 2026
-</div>
-
-<p id="shint">Scratch to reveal the date ✨</p>
     </div>
-    <p class="scratch-hint" id="shint">✦ &nbsp; Scratch to Reveal &nbsp; ✦</p>
+    <p class="scratch-hint" id="shint">✦  &nbsp; Scratch to Reveal &nbsp; ✦ </p>
   </div>
 
   <!-- COUNTDOWN -->
@@ -728,38 +723,38 @@
   </div>
 </section>
 
-<!-- ── VENUE ── -->
+<!-- ─ ─  VENUE ─ ─  -->
 <section id="venue" class="section">
   <div class="sec-head reveal">
-    <span class="sec-label">✦ &nbsp; You Are Invited &nbsp; ✦</span>
+    <span class="sec-label">✦  &nbsp; You Are Invited &nbsp; ✦ </span>
     <h2 class="sec-title">The Venue</h2>
     <div class="gold-bar"></div>
   </div>
   <div class="venue-grid reveal">
     <div class="v-list">
       <div class="v-item">
-        <span class="v-emoji">📍</span>
+        <span class="v-emoji">? ? </span>
         <div>
           <span class="v-lbl">Location</span>
           <span class="v-val">Sri Durga Function Hall<br>Kukatpally, Hyderabad</span>
         </div>
       </div>
       <div class="v-item">
-        <span class="v-emoji">📅</span>
+        <span class="v-emoji">? ? </span>
         <div>
           <span class="v-lbl">Date</span>
           <span class="v-val">Thursday, 11th June 2026</span>
         </div>
       </div>
       <div class="v-item">
-        <span class="v-emoji">🕙</span>
+        <span class="v-emoji">? ? </span>
         <div>
           <span class="v-lbl">Time</span>
           <span class="v-val">10:00 AM onwards</span>
         </div>
       </div>
       <div class="v-item">
-        <span class="v-emoji">💍</span>
+        <span class="v-emoji">? ? </span>
         <div>
           <span class="v-lbl">Occasion</span>
           <span class="v-val">Engagement Ceremony</span>
@@ -777,49 +772,49 @@
   </div>
 </section>
 
-<!-- ── WISHES FORM ── -->
+<!-- ─ ─  WISHES FORM ─ ─  -->
 <section id="wishes" class="section">
   <div class="sec-head reveal">
-    <span class="sec-label">✦ &nbsp; Share Your Love &nbsp; ✦</span>
+    <span class="sec-label">✦  &nbsp; Share Your Love &nbsp; ✦ </span>
     <h2 class="sec-title">Send Your Wishes</h2>
     <div class="gold-bar"></div>
   </div>
   <div class="form-wrap reveal d1">
     <div class="f-group">
       <label class="f-label">Your Name</label>
-      <input type="text" class="f-input" id="gname" placeholder="Enter your name…">
+      <input type="text" class="f-input" id="gname" placeholder="Enter your name">
     </div>
     <div class="f-group">
       <label class="f-label">Your Message</label>
-      <textarea class="f-area" id="gmsg" placeholder="Share your heartfelt wishes…"></textarea>
+      <textarea class="f-area" id="gmsg" placeholder="Share your heartfelt wishes"></textarea>
     </div>
     <!-- FIX: Was missing RSVP dropdown entirely -->
     <div class="f-group">
       <label class="f-label">Will You Attend?</label>
       <select class="f-select" id="grsvp">
-        <option value="">— Select your response —</option>
-        <option value="Yes, with great joy! 🎉">Yes, with great joy! 🎉</option>
-        <option value="Yes, with my partner 💑">Yes, with my partner 💑</option>
-        <option value="Yes, with family 👨‍👩‍👧‍👦">Yes, with family 👨‍👩‍👧‍👦</option>
-        <option value="Sending love, unable to attend 💌">Sending love, unable to attend 💌</option>
+        <option value=""> Select your response </option>
+        <option value="Yes, with great joy! ? ? ">Yes, with great joy! ? ? </option>
+        <option value="Yes, with my partner ? ? ">Yes, with my partner ? ? </option>
+        <option value="Yes, with family ? ? ‍ ? ? ‍ ? ? ‍ ? ? ">Yes, with family ? ? ‍ ? ? ‍ ? ? ‍ ? ? </option>
+        <option value="Sending love, unable to attend ? ? ">Sending love, unable to attend ? ? </option>
       </select>
     </div>
     <div class="f-btns">
-      <button class="btn-wa"   onclick="sendWA()">💬 &nbsp; WhatsApp</button>
+      <button class="btn-wa"   onclick="sendWA()">? ?  &nbsp; WhatsApp</button>
       <!-- FIX: Was completely missing from original code -->
-      <button class="btn-mail" onclick="sendMail()">✉ &nbsp; Email</button>
+      <button class="btn-mail" onclick="sendMail()">✉  &nbsp; Email</button>
     </div>
   </div>
 </section>
 
-<!-- ── FINALE ── -->
+<!-- ─ ─  FINALE ─ ─  -->
 <!-- FIX: Was completely missing from original code -->
 <section id="finale">
   <div class="reveal" style="max-width:650px;margin:0 auto;text-align:center;">
-    <p class="fin-orn">✦ &nbsp; ❋ &nbsp; ✦</p>
+    <p class="fin-orn">✦  &nbsp; ❋  &nbsp; ✦ </p>
     <blockquote class="fin-quote">
       "Your presence will be the greatest gift,<br>
-      your blessings — the most precious jewel<br>
+      your blessings  the most precious jewel<br>
       on this journey of two hearts becoming one."
     </blockquote>
     <div class="fin-bar"></div>
@@ -829,11 +824,11 @@
   </div>
 </section>
 
-<!-- ── SCRIPTS ── -->
+<!-- ─ ─  SCRIPTS ─ ─  -->
 <script>
 
-/* ── CURTAIN ──
-   FIX: Was only toggling .open classes — overlay stayed in DOM blocking clicks.
+/* ─ ─  CURTAIN ─ ─ 
+   FIX: Was only toggling .open classes  overlay stayed in DOM blocking clicks.
         Now hides both overlay and center after animation completes. */
 let opened = false;
 function openCurtain(){
@@ -851,14 +846,14 @@ function openCurtain(){
 setTimeout(()=>{ if(!opened) openCurtain(); }, 6000);
 
 
-/* ── SCROLL REVEAL ── */
+/* ─ ─  SCROLL REVEAL ─ ─  */
 const ro = new IntersectionObserver(entries=>{
   entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('vis'); });
 },{threshold:.1});
 document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
 
 
-/* ── SCRATCH CARD ── */
+/* ─ ─  SCRATCH CARD ─ ─  */
 const sc   = document.getElementById('sc');
 const sctx = sc.getContext('2d');
 let scratching = false;
@@ -889,7 +884,7 @@ function initScratch(){
   sctx.font = `500 ${Math.min(13,sc.width/14)}px Cinzel,serif`;
   sctx.textAlign = 'center';
   sctx.fillStyle = 'rgba(60,25,5,.5)';
-  sctx.fillText('✦  SCRATCH HERE  ✦', sc.width/2, sc.height/2+5);
+  sctx.fillText('✦   SCRATCH HERE  ✦ ', sc.width/2, sc.height/2+5);
 
   sctx.globalCompositeOperation = 'destination-out';
 }
@@ -917,7 +912,7 @@ function revealDate(){
   const hint = document.getElementById('shint');
   const countdown = document.getElementById('countdownBox');
 
-  hint.textContent = '✦  The Date is Revealed  ✦';
+  hint.textContent = '✦   The Date is Revealed  ✦ ';
 
   dateBox.classList.add('revealed-text');
   dateBox.classList.add('shine');
@@ -929,11 +924,11 @@ function revealDate(){
     countdown.classList.add('show');
   }, 1200);
 
-  toast('✦  Save the Date — 11 · 06 · 2026  ✦');
+  toast('✦   Save the Date  11 · 06 · 2026  ✦ ');
 }
 
 function burstSparkles(){
-  const syms=['✨','⭐','💫','✦','❋'];
+  const syms=['✨ ','⭐ ','? ? ','✦ ','❋ '];
   const r = document.getElementById('scratchWrap').getBoundingClientRect();
   for(let i=0;i<18;i++){
     const s = document.createElement('div');
@@ -961,18 +956,18 @@ sc.addEventListener('touchmove',  e=>{
   scratchAt(t.clientX-r.left, t.clientY-r.top);
 },{passive:false});
 
-setTimeout(initScratch, 400);
+window.addEventListener("load", initScratch);
 window.addEventListener('resize',()=>setTimeout(initScratch,200));
 
 
-/* ── COUNTDOWN ──
-   FIX 1: update() was never called once on load — showed blank for first second.
-   FIX 2: Numbers had no zero-padding — showed "5" instead "05".
-   FIX 3: No guard for negative diff — showed negative numbers after date passes. */
+/* ─ ─  COUNTDOWN ─ ─ 
+   FIX 1: update() was never called once on load  showed blank for first second.
+   FIX 2: Numbers had no zero-padding  showed "5" instead "05".
+   FIX 3: No guard for negative diff  showed negative numbers after date passes. */
 function pad(n,d=2){ return String(n).padStart(d,'0'); }
 
 function tick(){
-  const diff = new Date('2026-06-11T10:00:00') - new Date();
+  const diff = new Date('2026-06-11T10:00:00+05:30') - new Date();
 
   // FIX 3: Guard for past date
   if(diff <= 0){
@@ -1003,7 +998,7 @@ tick();                    // FIX 1: call immediately
 setInterval(tick, 1000);
 
 
-/* ── FORM ── */
+/* ─ ─  FORM ─ ─  */
 function getFields(){
   return {
     name: document.getElementById('gname').value.trim(),
@@ -1014,27 +1009,27 @@ function getFields(){
 
 function sendWA(){
   const {name,msg,rsvp} = getFields();
-  if(!name){ toast('Please enter your name ✦'); return; }
+  if(!name){ toast('Please enter your name ✦ '); return; }
   const text =
-    `✦ Engagement Wishes — Kranthi & Vishal ✦\n\n`+
-    `From: ${name}\nRSVP: ${rsvp||'Not specified'}\n\n`+
-    `Message: ${msg||'Sending my warmest wishes! 💐'}`;
+    `✦  Engagement Wishes  Kranthi & Vishal ✦ \\`+
+    `From: ${name}\: ${rsvp||'Not specified'}\\`+
+    `Message: ${msg||'Sending my warmest wishes! ? ? '}`;
   window.open(`https://wa.me/917989353480?text=${encodeURIComponent(text)}`,'_blank');
 }
 
 // FIX: Was completely missing from original code
 function sendMail(){
   const {name,msg,rsvp} = getFields();
-  if(!name){ toast('Please enter your name ✦'); return; }
-  const subj = `Engagement Wishes — ${name}`;
+  if(!name){ toast('Please enter your name ✦ '); return; }
+  const subj = `Engagement Wishes  ${name}`;
   const body =
-    `Wishes for Kranthi & Vishal's Engagement\n\n`+
-    `From: ${name}\nRSVP: ${rsvp||'Not specified'}\n\nMessage:\n${msg||'Sending my warmest wishes!'}`;
+    `Wishes for Kranthi & Vishal's Engagement\\`+
+    `From: ${name}\: ${rsvp||'Not specified'}\\:\${msg||'Sending my warmest wishes!'}`;
   window.location.href = `mailto:ourbigday240400@gmail.com?subject=${encodeURIComponent(subj)}&body=${encodeURIComponent(body)}`;
 }
 
 
-/* ── TOAST ── */
+/* ─ ─  TOAST ─ ─  */
 function toast(msg){
   const t = document.getElementById('toast');
   t.textContent = msg;
