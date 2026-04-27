@@ -526,18 +526,18 @@ h2::after, .sec-title::after {
   text-align:center;
 }
 
-/* ─── PREMIUM FOIL REVEAL ─── */
-.foil-wrap {
+/* ─── SEAL REVEAL ─── */
+.seal-wrap {
   position: relative;
-  display: inline-block;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
   margin: 2.5rem auto;
-  cursor: none;
 }
 
-/* The actual date text — revealed underneath */
+/* The actual date text — hidden until revealed */
 .date-box {
   padding: 2.5rem clamp(2rem,8vw,5.5rem);
-  /* ── PREMIUM DATE FONT ── */
   font-family: 'IM Fell English', 'Playfair Display', 'Libre Baskerville', Georgia, serif;
   font-size: clamp(2.4rem,7.5vw,5rem);
   font-style: italic;
@@ -551,17 +551,19 @@ h2::after, .sec-title::after {
   position: relative;
   overflow: hidden;
   min-width: 320px;
+  opacity: 0;
+  transform: scale(0.94);
+  transition: opacity 0s, transform 0s;
+}
+.date-box.revealed {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 0.6s ease 0.3s, transform 0.6s cubic-bezier(0.175,0.885,0.32,1.275) 0.3s;
 }
 .date-box.glow { animation: dateGlow 2.5s ease-in-out infinite; }
 @keyframes dateGlow {
   0%,100%{ box-shadow:0 0 18px rgba(201,169,110,.15); }
   50%    { box-shadow:0 0 65px rgba(201,169,110,.55), 0 0 110px rgba(201,169,110,.15); }
-}
-.date-box.revealed-text { animation: dateRevealFade 1.2s ease forwards; }
-@keyframes dateRevealFade {
-  0%  { opacity:0; transform:scale(0.9); letter-spacing:.5em; }
-  60% { opacity:1; transform:scale(1.04); }
-  100%{ opacity:1; transform:scale(1); letter-spacing:.22em; }
 }
 .date-box.shine::after {
   content:'';
@@ -575,35 +577,59 @@ h2::after, .sec-title::after {
   100%{ left:120%; opacity:0; }
 }
 
-/* ─── FOIL CANVAS overlay ─── */
-#foilCanvas {
+/* Wax seal circle */
+#sealCanvas {
   position: absolute;
-  inset: 0;
-  cursor: none;
-  touch-action: none;
-  border-radius: 0;
-  /* The foil layer itself is drawn via JS */
-}
-
-/* Custom cursor sparkle */
-#foilCursor {
-  position: fixed;
-  pointer-events: none;
-  z-index: 9999;
-  width: 28px; height: 28px;
+  top: 50%; left: 50%;
   transform: translate(-50%,-50%);
-  display: none;
+  cursor: pointer;
+  z-index: 10;
+  filter: drop-shadow(0 8px 30px rgba(0,0,0,0.7)) drop-shadow(0 0 20px rgba(201,169,110,0.3));
+  transition: filter 0.3s ease;
 }
-#foilCursor svg { width:100%; height:100%; }
+#sealCanvas:hover {
+  filter: drop-shadow(0 8px 30px rgba(0,0,0,0.7)) drop-shadow(0 0 40px rgba(201,169,110,0.6));
+}
+#sealCanvas.breaking {
+  pointer-events: none;
+  animation: sealShake 0.15s ease-in-out 2;
+}
+@keyframes sealShake {
+  0%,100% { transform: translate(-50%,-50%) rotate(0deg); }
+  25%  { transform: translate(-50%,-50%) rotate(-2deg) scale(1.02); }
+  75%  { transform: translate(-50%,-50%) rotate(2deg) scale(1.02); }
+}
 
 .reveal-hint {
   font-family:'Cinzel',serif;
   font-size:.57rem; letter-spacing:3px;
   color:var(--gold); text-transform:uppercase;
-  margin-top:1rem;
+  margin-top:1.2rem;
   animation:hintPulse 2s ease-in-out infinite;
+  position: relative; z-index: 1;
 }
 @keyframes hintPulse { 0%,100%{opacity:.4} 50%{opacity:1} }
+
+/* Shard pieces */
+.shard {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9000;
+  transform-origin: center center;
+  will-change: transform, opacity;
+}
+
+/* Crack lines canvas */
+#crackCanvas {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  pointer-events: none;
+  z-index: 11;
+  opacity: 1;
+  transition: opacity 0.4s ease;
+}
+#crackCanvas.fade { opacity: 0; }
 
 .ctdn {
   display:flex; gap:clamp(1rem,4vw,3rem);
@@ -1113,13 +1139,12 @@ h2::after, .sec-title::after {
   </div>
 
   <div class="reveal d1">
-    <div class="foil-wrap" id="foilWrap">
-      <!-- Date text below the foil -->
+    <div class="seal-wrap" id="sealWrap">
       <div class="date-box" id="dateBox">11 &nbsp;—&nbsp; 06 &nbsp;—&nbsp; 2026</div>
-      <!-- Foil canvas drawn on top -->
-      <canvas id="foilCanvas"></canvas>
+      <canvas id="crackCanvas"></canvas>
+      <canvas id="sealCanvas"></canvas>
     </div>
-    <p class="reveal-hint" id="revealHint">✦ &nbsp; Glide Over to Unveil &nbsp; ✦</p>
+    <p class="reveal-hint" id="revealHint">✦ &nbsp; Press the Seal to Reveal &nbsp; ✦</p>
   </div>
 
 <div class="reveal d2" style="margin-top:3.5rem;">
@@ -1382,234 +1407,312 @@ const ro = new IntersectionObserver(entries=>{
 },{threshold:.1});
 document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
 
-/* ── PREMIUM FOIL REVEAL ── */
-/* Concept: A luxe gold/holographic foil layer covers the date.
-   As the user glides over it, the foil melts away with iridescent
-   light dispersion — like peeling real metallic foil from a card. */
-const foilCanvas = document.getElementById('foilCanvas');
-const fctx = foilCanvas.getContext('2d');
-const dateBox = document.getElementById('dateBox');
-const foilWrap = document.getElementById('foilWrap');
-let foilDone = false;
-let foilActive = false;
-let animFrame;
-let mouseX = -200, mouseY = -200;
+/* ── WAX SEAL BREAK ── */
+(function(){
+  const sealCanvas  = document.getElementById('sealCanvas');
+  const crackCanvas = document.getElementById('crackCanvas');
+  const dateBox     = document.getElementById('dateBox');
+  const hint        = document.getElementById('revealHint');
+  const sctx = sealCanvas.getContext('2d');
+  const cctx = crackCanvas.getContext('2d');
+  const R = 110; // seal radius
+  const D = R * 2 + 20;
+  let broken = false;
+  let shimAngle = 0;
 
-// Noise texture seed for organic foil look
-const noiseData = [];
+  sealCanvas.width  = crackCanvas.width  = D;
+  sealCanvas.height = crackCanvas.height = D;
+  const cx = D / 2, cy = D / 2;
 
-function buildNoise(w, h){
-  noiseData.length = 0;
-  for(let i=0;i<w*h;i++) noiseData.push(Math.random());
-}
+  /* ── Draw wax seal ── */
+  function drawSeal(t) {
+    sctx.clearRect(0, 0, D, D);
 
-function initFoil(){
-  const r = dateBox.getBoundingClientRect();
-  foilCanvas.width  = dateBox.offsetWidth;
-  foilCanvas.height = dateBox.offsetHeight;
-  const W = foilCanvas.width, H = foilCanvas.height;
-  buildNoise(W, H);
-  drawFoil(W, H, true);
-}
+    // Outer wax ring — deep burgundy
+    const waxGrad = sctx.createRadialGradient(cx-15, cy-18, 4, cx, cy, R);
+    waxGrad.addColorStop(0,   '#8B2040');
+    waxGrad.addColorStop(0.35,'#6B1530');
+    waxGrad.addColorStop(0.7, '#4A0E20');
+    waxGrad.addColorStop(1,   '#2C0812');
+    sctx.beginPath();
+    sctx.arc(cx, cy, R, 0, Math.PI*2);
+    sctx.fillStyle = waxGrad;
+    sctx.fill();
 
-function drawFoil(W, H, full){
-  fctx.clearRect(0,0,W,H);
-  // Create rich holographic gradient base
-  const t = Date.now() / 1200;
-  const hue1 = (t * 30) % 360;
-  const hue2 = (hue1 + 60) % 360;
-  const hue3 = (hue1 + 120) % 360;
+    // Wax texture — subtle noise rings
+    for(let i=0; i<6; i++){
+      const r2 = 20 + i * 16;
+      sctx.beginPath();
+      sctx.arc(cx + Math.cos(i*1.2)*4, cy + Math.sin(i*0.9)*4, r2, 0, Math.PI*2);
+      sctx.strokeStyle = `rgba(${180+i*8},${40+i*5},${60+i*4},0.12)`;
+      sctx.lineWidth = 3;
+      sctx.stroke();
+    }
 
-  // Deep gold base
-  const goldGrad = fctx.createLinearGradient(0,0,W,H);
-  goldGrad.addColorStop(0,   `hsl(${40+hue1*0.05},65%,30%)`);
-  goldGrad.addColorStop(0.2, '#C9A96E');
-  goldGrad.addColorStop(0.4, '#EDD9A3');
-  goldGrad.addColorStop(0.55,'#F5E6B8');
-  goldGrad.addColorStop(0.7, '#C9A96E');
-  goldGrad.addColorStop(0.85,'#9A7340');
-  goldGrad.addColorStop(1,   `hsl(${50+hue2*0.04},55%,25%)`);
-  fctx.fillStyle = goldGrad;
-  fctx.fillRect(0,0,W,H);
+    // Rotating gold shimmer band
+    const shimX1 = cx + Math.cos(shimAngle) * R;
+    const shimY1 = cy + Math.sin(shimAngle) * R;
+    const shimX2 = cx + Math.cos(shimAngle + Math.PI) * R;
+    const shimY2 = cy + Math.sin(shimAngle + Math.PI) * R;
+    const shimGrad = sctx.createLinearGradient(shimX1, shimY1, shimX2, shimY2);
+    shimGrad.addColorStop(0,    'rgba(237,217,163,0)');
+    shimGrad.addColorStop(0.45, 'rgba(237,217,163,0)');
+    shimGrad.addColorStop(0.5,  'rgba(237,217,163,0.18)');
+    shimGrad.addColorStop(0.55, 'rgba(237,217,163,0)');
+    shimGrad.addColorStop(1,    'rgba(237,217,163,0)');
+    sctx.beginPath();
+    sctx.arc(cx, cy, R, 0, Math.PI*2);
+    sctx.fillStyle = shimGrad;
+    sctx.fill();
 
-  // Iridescent rainbow shimmer bands
-  const shim = fctx.createLinearGradient(
-    W*0.5 + Math.cos(t)*W*0.6, 0,
-    W*0.5 - Math.cos(t)*W*0.6, H
-  );
-  shim.addColorStop(0,    `hsla(${hue1},80%,65%,0.18)`);
-  shim.addColorStop(0.25, `hsla(${hue2},85%,70%,0.22)`);
-  shim.addColorStop(0.5,  `hsla(${hue3},90%,75%,0.18)`);
-  shim.addColorStop(0.75, `hsla(${(hue1+180)%360},80%,65%,0.2)`);
-  shim.addColorStop(1,    `hsla(${hue1},70%,60%,0.15)`);
-  fctx.fillStyle = shim;
-  fctx.fillRect(0,0,W,H);
+    // Gold rim
+    sctx.beginPath();
+    sctx.arc(cx, cy, R, 0, Math.PI*2);
+    sctx.strokeStyle = '#C9A96E';
+    sctx.lineWidth = 2;
+    sctx.stroke();
+    sctx.beginPath();
+    sctx.arc(cx, cy, R - 5, 0, Math.PI*2);
+    sctx.strokeStyle = 'rgba(201,169,110,0.3)';
+    sctx.lineWidth = 1;
+    sctx.stroke();
 
-  // Diagonal light sweep lines for foil texture
-  fctx.save();
-  fctx.globalAlpha = 0.12;
-  for(let i=-H; i<W+H; i+=18){
-    const xp = i + Math.sin(t+i*0.01)*6;
-    fctx.beginPath();
-    fctx.moveTo(xp,0);
-    fctx.lineTo(xp+H,H);
-    fctx.strokeStyle = `hsla(${(hue1+i)%360},90%,80%,1)`;
-    fctx.lineWidth = 5;
-    fctx.stroke();
+    // Inner embossed ring
+    sctx.beginPath();
+    sctx.arc(cx, cy, R * 0.72, 0, Math.PI*2);
+    sctx.strokeStyle = 'rgba(201,169,110,0.55)';
+    sctx.lineWidth = 1.5;
+    sctx.stroke();
+
+    // KV monogram
+    sctx.save();
+    sctx.font = `italic bold ${R * 0.48}px 'Cinzel Decorative', serif`;
+    sctx.textAlign = 'center';
+    sctx.textBaseline = 'middle';
+    // Shadow
+    sctx.fillStyle = 'rgba(0,0,0,0.5)';
+    sctx.fillText('KV', cx+2, cy+3);
+    // Gold text
+    const textGrad = sctx.createLinearGradient(cx-30, cy-20, cx+30, cy+20);
+    textGrad.addColorStop(0,   '#EDD9A3');
+    textGrad.addColorStop(0.5, '#C9A96E');
+    textGrad.addColorStop(1,   '#9A7340');
+    sctx.fillStyle = textGrad;
+    sctx.fillText('KV', cx, cy);
+    sctx.restore();
+
+    // Decorative dots around inner ring
+    for(let i=0; i<12; i++){
+      const a = (i / 12) * Math.PI * 2;
+      const dr = R * 0.84;
+      sctx.beginPath();
+      sctx.arc(cx + Math.cos(a)*dr, cy + Math.sin(a)*dr, 2, 0, Math.PI*2);
+      sctx.fillStyle = 'rgba(201,169,110,0.5)';
+      sctx.fill();
+    }
+
+    // Top highlight (light catch)
+    const hiGrad = sctx.createRadialGradient(cx - R*0.3, cy - R*0.35, 2, cx - R*0.3, cy - R*0.35, R*0.6);
+    hiGrad.addColorStop(0,   'rgba(255,220,180,0.22)');
+    hiGrad.addColorStop(0.5, 'rgba(255,180,140,0.06)');
+    hiGrad.addColorStop(1,   'rgba(255,150,120,0)');
+    sctx.beginPath();
+    sctx.arc(cx, cy, R, 0, Math.PI*2);
+    sctx.fillStyle = hiGrad;
+    sctx.fill();
   }
-  fctx.restore();
 
-  // Fine grain noise overlay
-  fctx.save();
-  fctx.globalAlpha = 0.06;
-  for(let y=0;y<H;y+=2){
-    for(let x=0;x<W;x+=2){
-      const n = noiseData[(y/2|0)*(W/2|0)+(x/2|0)] || 0;
-      fctx.fillStyle = n > 0.5 ? 'rgba(255,255,220,1)' : 'rgba(100,50,0,1)';
-      fctx.fillRect(x,y,2,2);
+  /* ── Draw crack lines ── */
+  function drawCracks(progress) {
+    cctx.clearRect(0, 0, D, D);
+    // progress 0→1: cracks spread from center
+    const cracks = [
+      [0, -R],  [R*0.5, -R*0.75], [R*0.85, -R*0.2],
+      [R*0.7,   R*0.6],           [0,        R*0.95],
+      [-R*0.6,  R*0.7],           [-R*0.9,   R*0.1],
+      [-R*0.55, -R*0.65],
+    ];
+
+    cctx.save();
+    cctx.strokeStyle = 'rgba(237,217,163,0.9)';
+    cctx.lineWidth = 1.2;
+    cctx.shadowColor = 'rgba(237,217,163,0.8)';
+    cctx.shadowBlur = 4;
+
+    cracks.forEach(([tx, ty], i) => {
+      const delay = i * 0.08;
+      const p = Math.max(0, Math.min(1, (progress - delay) / 0.6));
+      if(p <= 0) return;
+      const ex = cx + tx * p;
+      const ey = cy + ty * p;
+      // Main crack line
+      cctx.beginPath();
+      cctx.moveTo(cx, cy);
+      // Slightly jagged
+      const mx = (cx + ex)/2 + (Math.random()-0.5)*8*(1-p);
+      const my = (cy + ey)/2 + (Math.random()-0.5)*8*(1-p);
+      cctx.quadraticCurveTo(mx, my, ex, ey);
+      cctx.stroke();
+      // Branch crack
+      if(p > 0.5) {
+        const bp = (p - 0.5) * 2;
+        const ba = Math.atan2(ty, tx) + 0.4;
+        cctx.beginPath();
+        cctx.moveTo(cx + tx*0.5, cy + ty*0.5);
+        cctx.lineTo(
+          cx + tx*0.5 + Math.cos(ba)*R*0.28*bp,
+          cy + ty*0.5 + Math.sin(ba)*R*0.28*bp
+        );
+        cctx.globalAlpha = 0.5;
+        cctx.stroke();
+        cctx.globalAlpha = 1;
+      }
+    });
+    cctx.restore();
+  }
+
+  /* ── Shards ── */
+  function spawnShards() {
+    const rect = sealCanvas.getBoundingClientRect();
+    const ox = rect.left + rect.width/2;
+    const oy = rect.top  + rect.height/2;
+    const colors = ['#8B2040','#6B1530','#4A0E20','#C9A96E','#A0503A'];
+
+    for(let i=0; i<22; i++){
+      const el = document.createElement('canvas');
+      el.className = 'shard';
+      const sz = 14 + Math.random() * 32;
+      el.width = el.height = sz;
+      const ctx2 = el.getContext('2d');
+      // Random polygon shard shape
+      const pts = 3 + Math.floor(Math.random()*3);
+      ctx2.beginPath();
+      for(let j=0; j<pts; j++){
+        const a = (j/pts)*Math.PI*2 + Math.random()*0.5;
+        const r = sz*0.3 + Math.random()*sz*0.3;
+        j===0 ? ctx2.moveTo(sz/2+Math.cos(a)*r, sz/2+Math.sin(a)*r)
+              : ctx2.lineTo(sz/2+Math.cos(a)*r, sz/2+Math.sin(a)*r);
+      }
+      ctx2.closePath();
+      // Wax color fill
+      const col = colors[Math.floor(Math.random()*colors.length)];
+      const sg = ctx2.createLinearGradient(0,0,sz,sz);
+      sg.addColorStop(0, col);
+      sg.addColorStop(1, '#2C0812');
+      ctx2.fillStyle = sg;
+      ctx2.fill();
+      // Gold edge
+      ctx2.strokeStyle = 'rgba(201,169,110,0.6)';
+      ctx2.lineWidth = 0.8;
+      ctx2.stroke();
+
+      el.style.left = ox + 'px';
+      el.style.top  = oy + 'px';
+      el.style.transform = `translate(-50%,-50%)`;
+      document.body.appendChild(el);
+
+      const angle  = Math.random() * Math.PI * 2;
+      const speed  = 80 + Math.random() * 220;
+      const rotSpd = (Math.random()-0.5) * 720;
+      const tx = Math.cos(angle)*speed;
+      const ty = Math.sin(angle)*speed - Math.random()*60;
+      const dur = 700 + Math.random()*600;
+      const start = performance.now();
+
+      (function animate(now){
+        const elapsed = now - start;
+        const p = Math.min(elapsed/dur, 1);
+        const ease = 1 - Math.pow(1-p,3);
+        const gravity = p*p*120;
+        el.style.transform = `translate(calc(-50% + ${tx*ease}px), calc(-50% + ${ty*ease + gravity}px)) rotate(${rotSpd*ease}deg)`;
+        el.style.opacity = p < 0.7 ? '1' : (1-(p-0.7)/0.3).toString();
+        if(p < 1) requestAnimationFrame(animate);
+        else el.remove();
+      })(start);
     }
   }
-  fctx.restore();
 
-  // "GLIDE TO REVEAL" text
-  if(full){
-    fctx.save();
-    fctx.globalCompositeOperation = 'multiply';
-    fctx.font = `500 ${Math.min(12, W/18)}px Cinzel, serif`;
-    fctx.textAlign = 'center';
-    fctx.fillStyle = 'rgba(60,20,0,0.55)';
-    fctx.fillText('✦  GLIDE TO REVEAL  ✦', W/2, H/2 + 5);
-    fctx.restore();
-  }
+  /* ── Break sequence ── */
+  function breakSeal() {
+    if(broken) return;
+    broken = true;
+    hint.textContent = '';
+    sealCanvas.classList.add('breaking');
 
-  // Gold edge border
-  fctx.save();
-  fctx.strokeStyle = 'rgba(201,169,110,0.8)';
-  fctx.lineWidth = 1.5;
-  fctx.strokeRect(1,1,W-2,H-2);
-  fctx.restore();
-}
-
-function eraseAtPoint(px, py){
-  fctx.save();
-  fctx.globalCompositeOperation = 'destination-out';
-  // Soft radial erase — large central clear, feathered edges
-  const rad = foilCanvas.width * 0.18;
-  const g = fctx.createRadialGradient(px,py,0,px,py,rad);
-  g.addColorStop(0,   'rgba(0,0,0,1)');
-  g.addColorStop(0.5, 'rgba(0,0,0,0.85)');
-  g.addColorStop(0.78,'rgba(0,0,0,0.4)');
-  g.addColorStop(1,   'rgba(0,0,0,0)');
-  fctx.fillStyle = g;
-  fctx.beginPath();
-  fctx.arc(px,py,rad,0,Math.PI*2);
-  fctx.fill();
-  fctx.restore();
-}
-
-function checkFoilDone(){
-  if(foilDone) return;
-  const d = fctx.getImageData(0,0,foilCanvas.width,foilCanvas.height).data;
-  let clear = 0;
-  for(let i=3;i<d.length;i+=4) if(d[i]<60) clear++;
-  if(clear/(foilCanvas.width*foilCanvas.height) > 0.52) revealDate();
-}
-
-function revealDate(){
-  foilDone = true;
-  // Sparkle burst as foil clears
-  burstSparkles();
-  // Animate remaining foil away
-  let opacity = 1;
-  function fadeOut(){
-    opacity -= 0.04;
-    if(opacity <= 0){
-      foilCanvas.style.opacity = '0';
-      foilCanvas.style.pointerEvents = 'none';
-      document.getElementById('foilCursor').style.display = 'none';
-      dateBox.classList.add('revealed-text','shine','glow');
-      document.getElementById('revealHint').textContent = '✦  The Date is Revealed  ✦';
-      setTimeout(()=>document.getElementById('countdownBox').classList.add('show'),1200);
-      toast('✦  Save the Date — 11 · 06 · 2026  ✦');
-      cancelAnimationFrame(animFrame);
-      return;
+    // Phase 1: cracks spread (0→600ms)
+    const crackStart = performance.now();
+    function animCracks(now){
+      const p = Math.min((now - crackStart) / 600, 1);
+      drawSeal(0); // keep seal underneath cracks
+      drawCracks(p);
+      if(p < 1) requestAnimationFrame(animCracks);
+      else {
+        // Phase 2: shatter
+        setTimeout(shatter, 80);
+      }
     }
-    foilCanvas.style.opacity = opacity.toString();
-    animFrame = requestAnimationFrame(fadeOut);
+    requestAnimationFrame(animCracks);
   }
-  fadeOut();
-}
 
-// Animate foil shimmer continuously
-function animateFoil(){
-  if(foilDone) return;
-  const W = foilCanvas.width, H = foilCanvas.height;
-  // Redraw base foil shimmer while keeping erased holes
-  // We use a temp canvas trick: redraw on offscreen, then composite
-  drawFoil(W, H, !foilActive);
-  requestAnimationFrame(animateFoil);
-}
-
-// Mouse interaction
-foilWrap.addEventListener('mouseenter', ()=>{
-  document.getElementById('foilCursor').style.display = 'block';
-  foilActive = true;
-});
-foilWrap.addEventListener('mouseleave', ()=>{
-  document.getElementById('foilCursor').style.display = 'none';
-  foilActive = false;
-  mouseX = -200; mouseY = -200;
-});
-foilWrap.addEventListener('mousemove', e=>{
-  if(foilDone) return;
-  const rect = foilCanvas.getBoundingClientRect();
-  const cx = e.clientX - rect.left;
-  const cy = e.clientY - rect.top;
-  mouseX = cx; mouseY = cy;
-  eraseAtPoint(cx, cy);
-  checkFoilDone();
-  // Move cursor
-  const cur = document.getElementById('foilCursor');
-  cur.style.left = e.clientX + 'px';
-  cur.style.top  = e.clientY + 'px';
-});
-
-// Touch
-foilWrap.addEventListener('touchmove', e=>{
-  if(foilDone) return;
-  e.preventDefault();
-  const rect = foilCanvas.getBoundingClientRect();
-  const t = e.touches[0];
-  eraseAtPoint(t.clientX - rect.left, t.clientY - rect.top);
-  checkFoilDone();
-},{passive:false});
-
-document.addEventListener('mousemove', e=>{
-  if(!foilActive || foilDone) return;
-  const cur = document.getElementById('foilCursor');
-  cur.style.left = e.clientX + 'px';
-  cur.style.top  = e.clientY + 'px';
-});
-
-function burstSparkles(){
-  const syms=['✨','⭐','💫','✦','❋','🌟'];
-  const r = foilWrap.getBoundingClientRect();
-  for(let i=0;i<28;i++){
-    const s = document.createElement('div');
-    const sx=(Math.random()-.5)*180, sy=-(30+Math.random()*120);
-    s.style.cssText=`position:fixed;pointer-events:none;z-index:9000;font-size:${.8+Math.random()*1.5}rem;left:${r.left+Math.random()*r.width}px;top:${r.top+Math.random()*r.height}px;--sx:${sx}px;--sy:${sy}px;animation:sparkleOut 1.8s ease forwards;`;
-    s.textContent=syms[Math.floor(Math.random()*syms.length)];
-    document.body.appendChild(s);
-    setTimeout(()=>s.remove(),2200);
+  function shatter() {
+    spawnShards();
+    // Hide seal + cracks
+    const hideStart = performance.now();
+    function hideAnim(now){
+      const p = Math.min((now - hideStart)/300, 1);
+      sealCanvas.style.opacity  = (1-p).toString();
+      crackCanvas.style.opacity = (1-p).toString();
+      if(p < 1) requestAnimationFrame(hideAnim);
+      else {
+        sealCanvas.style.display  = 'none';
+        crackCanvas.style.display = 'none';
+        revealDate();
+      }
+    }
+    requestAnimationFrame(hideAnim);
   }
-}
 
-// Init after fonts load
-setTimeout(()=>{
-  initFoil();
-  requestAnimationFrame(animateFoil);
-},500);
-window.addEventListener('resize',()=>setTimeout(initFoil,200));
+  function revealDate() {
+    dateBox.classList.add('revealed','shine','glow');
+    burstSparkles();
+    hint.textContent = '✦  The Date is Revealed  ✦';
+    hint.style.animation = 'none';
+    hint.style.opacity = '1';
+    setTimeout(()=>document.getElementById('countdownBox').classList.add('show'), 1000);
+    toast('✦  Save the Date — 11 · 06 · 2026  ✦');
+  }
+
+  function burstSparkles(){
+    const syms = ['✨','⭐','💫','✦','❋','🌟'];
+    const r = sealCanvas.getBoundingClientRect();
+    for(let i=0;i<24;i++){
+      const s = document.createElement('div');
+      const sx=(Math.random()-.5)*180, sy=-(30+Math.random()*120);
+      s.style.cssText=`position:fixed;pointer-events:none;z-index:9000;font-size:${.8+Math.random()*1.5}rem;left:${r.left+Math.random()*r.width}px;top:${r.top+Math.random()*r.height}px;--sx:${sx}px;--sy:${sy}px;animation:sparkleOut 1.8s ease forwards;`;
+      s.textContent=syms[Math.floor(Math.random()*syms.length)];
+      document.body.appendChild(s);
+      setTimeout(()=>s.remove(),2200);
+    }
+  }
+
+  /* ── Shimmer animation loop ── */
+  function shimLoop(){
+    if(broken) return;
+    shimAngle += 0.008;
+    drawSeal(shimAngle);
+    requestAnimationFrame(shimLoop);
+  }
+
+  /* ── Events ── */
+  sealCanvas.addEventListener('click', breakSeal);
+  sealCanvas.addEventListener('touchend', e=>{ e.preventDefault(); breakSeal(); },{passive:false});
+
+  /* ── Init ── */
+  setTimeout(()=>{
+    drawSeal(0);
+    requestAnimationFrame(shimLoop);
+  }, 400);
+})();
 
 /* ── COUNTDOWN ── */
 function pad(n,d=2){ return String(n).padStart(d,'0'); }
