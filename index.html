@@ -16,7 +16,7 @@
          - Lato            → body text, paragraphs, inputs (readable)
   -->
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Lato:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&display=swap" rel="stylesheet">
   <style>
 
   /* ================= ROOT VARIABLES ================= */
@@ -607,6 +607,18 @@
 .ctdn.show {
   animation: fadeUp 1.2s ease forwards;
   pointer-events: auto;
+}
+    .date-box.glow {
+  animation: glowPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    text-shadow: 0 0 6px rgba(212,175,55,0.4);
+  }
+  50% {
+    text-shadow: 0 0 16px rgba(212,175,55,0.9);
+  }
 }
   </style>
 </head>
