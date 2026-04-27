@@ -694,11 +694,10 @@ h2::after, .sec-title::after {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1.8rem;
-  max-width: 1000px;
+  max-width: 900px;
   margin: 0 auto 3rem;
 }
-@media(max-width:860px) { .bible-grid { grid-template-columns: repeat(2,1fr); } }
-@media(max-width:560px) { .bible-grid { grid-template-columns: 1fr; } }
+@media(max-width:760px) { .bible-grid { grid-template-columns: 1fr; max-width:480px; } }
 
 /* Featured wide card spanning full width */
 .bible-card {
@@ -1057,14 +1056,7 @@ h2::after, .sec-title::after {
       </div>
     </div>
   </div>
-  <div class="parents-blessing reveal d3">
-    <p>
-      "Parents plant the seeds of love within us —<br>
-      their prayers become the wind beneath our wings,<br>
-      their blessings the sacred thread that binds two hearts forever."
-    </p>
-    <cite>✦ &nbsp; A Family's Greatest Gift &nbsp; ✦</cite>
-  </div>
+
 </section>
 
 <!-- ORNAMENTAL DIVIDER -->
@@ -1106,14 +1098,7 @@ h2::after, .sec-title::after {
       <span class="aus-val">Siddhi Yoga<br>Blessed for New Beginnings</span>
     </div>
   </div>
-  <div class="aus-quote reveal d2">
-    <p>
-      "The stars do not align by chance —<br>
-      they conspire to bring two souls together<br>
-      on a day the universe has been saving just for them."
-    </p>
-    <cite>✦ &nbsp; On Auspicious Beginnings &nbsp; ✦</cite>
-  </div>
+
 </section>
 
 <!-- ── DATE + COUNTDOWN ── -->
@@ -1137,14 +1122,7 @@ h2::after, .sec-title::after {
     <p class="reveal-hint" id="revealHint">✦ &nbsp; Glide Over to Unveil &nbsp; ✦</p>
   </div>
 
-  <div class="date-quote reveal d2">
-    <p>
-      "Every love story is beautiful —<br>
-      but ours is our favourite."
-    </p>
-  </div>
-
-  <div class="reveal d2" style="margin-top:3.5rem;">
+<div class="reveal d2" style="margin-top:3.5rem;">
     <p style="font-family:'Cinzel',serif;font-size:.55rem;letter-spacing:5px;color:var(--gold);text-transform:uppercase;text-align:center;margin-bottom:2rem;">
       Counting Down The Moments
     </p>
@@ -1219,92 +1197,37 @@ h2::after, .sec-title::after {
 
   <div class="bible-grid">
 
-    <!-- LOVE -->
     <div class="bible-card reveal d1">
       <div class="card-sheen"></div>
       <span class="bible-theme-icon">❤️</span>
       <span class="bible-theme">On Love</span>
       <p class="bible-verse-text">
-        "Love is patient, love is kind. It does not envy,<br>
-        it does not boast, it is not proud.<br>
+        "Love is patient, love is kind.<br>
         It always protects, always trusts,<br>
         always hopes, always perseveres."
       </p>
       <span class="bible-ref">1 Corinthians 13:4, 7</span>
     </div>
 
-    <!-- LOVE 2 -->
     <div class="bible-card reveal d2">
       <div class="card-sheen"></div>
-      <span class="bible-theme-icon">🕊️</span>
-      <span class="bible-theme">On Love</span>
+      <span class="bible-theme-icon">🌿</span>
+      <span class="bible-theme">On Family</span>
       <p class="bible-verse-text">
-        "Two are better than one,<br>
-        because they have a good return for their labor;<br>
+        "Two are better than one —<br>
         if either of them falls down,<br>
         one can help the other up."
       </p>
       <span class="bible-ref">Ecclesiastes 4:9–10</span>
     </div>
 
-    <!-- FAMILY -->
     <div class="bible-card reveal d3">
-      <div class="card-sheen"></div>
-      <span class="bible-theme-icon">🌿</span>
-      <span class="bible-theme">On Family</span>
-      <p class="bible-verse-text">
-        "Her children arise and call her blessed;<br>
-        her husband also, and he praises her:<br>
-        'Many women do noble things,<br>
-        but you surpass them all.'"
-      </p>
-      <span class="bible-ref">Proverbs 31:28–29</span>
-    </div>
-
-    <!-- FAMILY 2 -->
-    <div class="bible-card reveal d1">
-      <div class="card-sheen"></div>
-      <span class="bible-theme-icon">🏡</span>
-      <span class="bible-theme">On Family</span>
-      <p class="bible-verse-text">
-        "As for me and my household,<br>
-        we will serve the Lord."
-      </p>
-      <span class="bible-ref">Joshua 24:15</span>
-    </div>
-
-    <!-- HAPPY LIFE -->
-    <div class="bible-card reveal d2">
       <div class="card-sheen"></div>
       <span class="bible-theme-icon">☀️</span>
       <span class="bible-theme">On a Joyful Life</span>
       <p class="bible-verse-text">
-        "This is the day the Lord has made;<br>
-        we will rejoice and be glad in it."
-      </p>
-      <span class="bible-ref">Psalm 118:24</span>
-    </div>
-
-    <!-- HAPPY LIFE 2 -->
-    <div class="bible-card reveal d3">
-      <div class="card-sheen"></div>
-      <span class="bible-theme-icon">🌟</span>
-      <span class="bible-theme">On a Joyful Life</span>
-      <p class="bible-verse-text">
-        "May the God of hope fill you with all joy and peace<br>
-        as you trust in him, so that you may overflow<br>
-        with hope by the power of the Holy Spirit."
-      </p>
-      <span class="bible-ref">Romans 15:13</span>
-    </div>
-
-    <!-- WIDE FEATURED VERSE -->
-    <div class="bible-card wide reveal d1">
-      <div class="card-sheen"></div>
-      <span class="bible-theme-icon">💛</span>
-      <span class="bible-theme">On Love, Family &amp; Blessing</span>
-      <p class="bible-verse-text" style="font-size:clamp(1.05rem,2.5vw,1.45rem);">
-        "And now these three remain: faith, hope and love.<br>
+        "And now these three remain:<br>
+        faith, hope and love.<br>
         But the greatest of these is love."
       </p>
       <span class="bible-ref">1 Corinthians 13:13</span>
@@ -1327,15 +1250,14 @@ h2::after, .sec-title::after {
     <h2 class="sec-title">A Promise, A Ring, A Forever</h2>
     <div class="gold-bar"></div>
   </div>
-  <div class="eq-grid">
+  <div class="eq-grid" style="grid-template-columns:repeat(2,1fr);max-width:680px;">
     <div class="eq-card reveal d1">
       <span class="eq-icon">💍</span>
       <p class="eq-text">
-        "An engagement is not just a ring on a finger —<br>
+        "An engagement is not just a ring —<br>
         it is a promise held in the heart,<br>
         a future written in the stars."
       </p>
-      <span class="eq-attr">✦ &nbsp; On Love's Promise &nbsp; ✦</span>
     </div>
     <div class="eq-card reveal d2">
       <span class="eq-icon">🏡</span>
@@ -1344,16 +1266,6 @@ h2::after, .sec-title::after {
         and wherever you are,<br>
         that is where I belong."
       </p>
-      <span class="eq-attr">✦ &nbsp; Kranthi &amp; Vishal &nbsp; ✦</span>
-    </div>
-    <div class="eq-card reveal d3">
-      <span class="eq-icon">✨</span>
-      <p class="eq-text">
-        "You are the finest, loveliest, tenderest<br>
-        person I have ever known —<br>
-        and even that is an understatement."
-      </p>
-      <span class="eq-attr">✦ &nbsp; F. Scott Fitzgerald &nbsp; ✦</span>
     </div>
   </div>
 </section>
@@ -1405,18 +1317,9 @@ h2::after, .sec-title::after {
 <section id="finale">
   <div class="reveal" style="max-width:940px;margin:0 auto;text-align:center;">
     <p class="fin-orn">✦ &nbsp; ❋ &nbsp; ✦</p>
-    <div class="fin-quotes-grid">
-      <div class="fin-quote-card">
-        <p>"A wedding is a day, but a marriage is a lifetime — begin it surrounded by the ones who love you most."</p>
-        <cite>✦ &nbsp; On New Beginnings &nbsp; ✦</cite>
-      </div>
-      <div class="fin-quote-card">
-        <p>"Parents' blessings are the armour that no weapon can pierce and no storm can unsettle."</p>
-        <cite>✦ &nbsp; Ancient Wisdom &nbsp; ✦</cite>
-      </div>
+    <div class="fin-quotes-grid" style="grid-template-columns:1fr;max-width:520px;">
       <div class="fin-quote-card">
         <p>"Love is not what you say. Love is what you do — and we choose each other, every single day."</p>
-        <cite>✦ &nbsp; Kranthi &amp; Vishal &nbsp; ✦</cite>
       </div>
     </div>
     <p class="fin-main-quote">
